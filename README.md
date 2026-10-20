@@ -8,23 +8,47 @@
   </a>
 </p>
 
-# Skills For Real Engineers
+# Skills For Real Engineers (fork)
 
-[![skills.sh](https://skills.sh/b/mattpocock/skills)](https://skills.sh/mattpocock/skills)
+This is a fork of [mattpocock/skills](https://github.com/mattpocock/skills). The skills, docs, and ideas are Matt Pocock's. This fork changes the parts below and nothing else.
 
-My agent skills that I use every day to do real engineering - not vibe coding.
+## What this fork changes
 
-Developing real applications is hard. Approaches like GSD, BMAD, and Spec-Kit try to help by owning the process. But while doing so, they take away your control and make bugs in the process hard to resolve.
+### Implementer and reviewer subagents on Claude Code
 
-These skills are designed to be small, easy to adapt, and composable. They work with any model. They're based on decades of engineering experience. Hack around with them. Make them your own. Enjoy.
+[`implement`](./skills/engineering/implement/SKILL.md) and [`implement-spec`](./skills/engineering/implement-spec/SKILL.md) split building from reviewing when the Agent tool and the `ponytail` and `ponytail-review` skills are available:
 
-If you want to keep up with changes to these skills, and any new ones I create, you can join ~60,000 other devs on my newsletter:
+| Role | Model | Effort | Skill |
+| --- | --- | --- | --- |
+| Implementer subagent | Sonnet 5.5 | high | `ponytail` |
+| Reviewer subagent | Opus 5.5 | high | `ponytail-review` |
 
-[Sign Up To The Newsletter](https://www.aihero.dev/s/skills-newsletter)
+The main agent keeps the implementer's report (what it built, the commits, what it skipped) and relays the reviewer's findings without fixing them. In `implement-spec` the single fix subagent after the review is unchanged. Without those skills, or off Claude Code, the original `tdd` and `code-review` flow runs.
+
+### Router updated: ask-matt
+
+[`ask-matt`](./skills/engineering/ask-matt/SKILL.md) now mentions the subagent path for `/implement` and `/implement-spec`, and points git work at `/version-control`, so the router matches this fork.
+
+### New skill: version-control
+
+[`version-control`](./skills/engineering/version-control/SKILL.md) covers git hygiene: atomic commits, branching, rebase vs merge, safe pushing, PRs, conflicts, and least-destructive recovery. It is model-invoked, so the agent reaches for it whenever the task touches git.
+
+## Upstream documentation
+
+Everything else works as Matt Pocock documents it:
+
+- [Upstream README](https://github.com/mattpocock/skills#readme): the philosophy, install options, and the full skill list.
+- [Skill docs on aihero.dev](https://aihero.dev/skills-ask-matt): one page per skill at `https://aihero.dev/skills-<skill-name>`. Start with `ask-matt`, the router over the whole set.
+- [Newsletter](https://www.aihero.dev/s/skills-newsletter): to keep up with upstream changes and new skills.
+- [AI Coding Dictionary](https://www.aihero.dev/ai-coding-dictionary): the vocabulary the docs use.
+
+The docs pages for the changed skills ([`implement`](./docs/engineering/implement.md), [`implement-spec`](./docs/engineering/implement-spec.md), [`version-control`](./docs/engineering/version-control.md)) are updated or added here too.
+
+The installation steps below install this fork (`mraleborg-skills`), not the official plugin. The skill list is upstream's plus the changes above.
 
 ## Installation (30-second setup)
 
-A plugin updates itself. [skills.sh](https://skills.sh/mattpocock/skills) copies editable files into your project, and you update them by hand. Pick one per agent, because installing both gives you every skill twice.
+A plugin updates itself. [skills.sh](https://skills.sh/MrAleborg/skills) copies editable files into your project, and you update them by hand. Pick one per agent, because installing both gives you every skill twice.
 
 ### 1. Get the skills
 
@@ -32,7 +56,8 @@ A plugin updates itself. [skills.sh](https://skills.sh/mattpocock/skills) copies
 <summary><strong>Claude Code</strong></summary>
 
 ```bash
-claude plugin install mattpocock-skills@claude-plugins-official
+claude plugin marketplace add MrAleborg/skills
+claude plugin install mraleborg-skills@mraleborg
 ```
 
 Updates itself by default.
@@ -43,8 +68,8 @@ Updates itself by default.
 <summary><strong>Codex</strong></summary>
 
 ```bash
-codex plugin marketplace add mattpocock/skills
-codex plugin add mattpocock-skills@mattpocock
+codex plugin marketplace add MrAleborg/skills
+codex plugin add mraleborg-skills@mraleborg
 ```
 
 Updates itself at startup.
@@ -55,8 +80,8 @@ Updates itself at startup.
 <summary><strong>GitHub Copilot</strong> (CLI and VS Code)</summary>
 
 ```bash
-copilot plugin marketplace add mattpocock/skills
-copilot plugin install mattpocock-skills@mattpocock
+copilot plugin marketplace add MrAleborg/skills
+copilot plugin install mraleborg-skills@mraleborg
 ```
 
 Then, once, add to `~/.copilot/settings.json`:
@@ -64,12 +89,12 @@ Then, once, add to `~/.copilot/settings.json`:
 ```json
 {
   "extraKnownMarketplaces": {
-    "mattpocock": { "source": { "source": "github", "repo": "mattpocock/skills" }, "autoUpdate": true }
+    "mraleborg": { "source": { "source": "github", "repo": "MrAleborg/skills" }, "autoUpdate": true }
   }
 }
 ```
 
-In VS Code, run **Chat: Install Plugin From Source** and enter `https://github.com/mattpocock/skills`. It updates daily.
+In VS Code, run **Chat: Install Plugin From Source** and enter `https://github.com/MrAleborg/skills`. It updates daily.
 
 </details>
 
@@ -77,8 +102,8 @@ In VS Code, run **Chat: Install Plugin From Source** and enter `https://github.c
 <summary><strong>Gemini CLI</strong> (manual updates)</summary>
 
 ```bash
-gemini skills install https://github.com/mattpocock/skills.git --path skills/engineering
-gemini skills install https://github.com/mattpocock/skills.git --path skills/productivity
+gemini skills install https://github.com/MrAleborg/skills.git --path skills/engineering
+gemini skills install https://github.com/MrAleborg/skills.git --path skills/productivity
 ```
 
 Re-run both commands to update.
@@ -89,7 +114,7 @@ Re-run both commands to update.
 <summary><strong>Any other agent, or editable files</strong> (manual updates)</summary>
 
 ```bash
-npx skills@latest add mattpocock/skills -a <agent>  # cursor, opencode, devin, windsurf, amp, pi; omit -a to choose
+npx skills@latest add MrAleborg/skills -a <agent>  # cursor, opencode, devin, windsurf, amp, pi; omit -a to choose
 ```
 
 When the installer asks which skills to take, include `setup-matt-pocock-skills`. To update, run `npx skills@latest update`, and re-run `add` to pick up new skills.
@@ -216,15 +241,15 @@ Skills I use daily for code work.
 
 **User-invoked**
 
-- **[ask-matt](./skills/engineering/ask-matt/SKILL.md)**: Ask which skill or flow fits your situation. A router over the user-invoked skills in this repo.
+- **[ask-matt](./skills/engineering/ask-matt/SKILL.md)** *(changed in this fork)*: Ask which skill or flow fits your situation. A router over the user-invoked skills in this repo.
 - **[grill-with-docs](./skills/engineering/grill-with-docs/SKILL.md)**: Grilling session that also builds your project's domain model, sharpening terminology and updating `GLOSSARY.md` and ADRs inline.
 - **[triage](./skills/engineering/triage/SKILL.md)**: Move issues through a state machine of triage roles.
 - **[improve-codebase-architecture](./skills/engineering/improve-codebase-architecture/SKILL.md)**: Scan a codebase for deepening opportunities, present them as a visual HTML report, then grill through whichever one you pick.
 - **[setup-matt-pocock-skills](./skills/engineering/setup-matt-pocock-skills/SKILL.md)**: Configure this repo for the engineering skills (issue tracker, triage labels, domain doc layout). Run once per repo before using the other engineering skills.
 - **[to-spec](./skills/engineering/to-spec/SKILL.md)**: Turn the current conversation into a spec and publish it to the issue tracker. No interview, just synthesizes what you've already discussed.
 - **[to-tickets](./skills/engineering/to-tickets/SKILL.md)**: Break any plan, spec, or conversation into a set of tracer-bullet tickets, each declaring its blocking edges, written as text in a local file, or as native blocking links on a real tracker.
-- **[implement](./skills/engineering/implement/SKILL.md)**: Build the work described by a spec or set of tickets, driving `/tdd` at pre-agreed seams and closing out with `/code-review` before committing.
-- **[implement-spec](./skills/engineering/implement-spec/SKILL.md)**: Implement a whole spec on one integration branch. Works the tickets as a task graph, running implementer subagents across the ready frontier for maximum concurrency, then closes out with `/code-review`.
+- **[implement](./skills/engineering/implement/SKILL.md)** *(changed in this fork)*: Build the work described by a spec or set of tickets, driving `/tdd` at pre-agreed seams and closing out with `/code-review` before committing.
+- **[implement-spec](./skills/engineering/implement-spec/SKILL.md)** *(changed in this fork)*: Implement a whole spec on one integration branch. Works the tickets as a task graph, running implementer subagents across the ready frontier for maximum concurrency, then closes out with `/code-review`.
 - **[wayfinder](./skills/engineering/wayfinder/SKILL.md)**: Plan a huge chunk of work, more than one agent session can hold, as a shared map of decision tickets on the issue tracker, and resolve them one at a time until the way to the destination is clear.
 - **[retro](./skills/engineering/retro/SKILL.md)**: Suggest improvements to the coding agent's environment (navigation, automated checks, coding standards, steering files, tooling) after a session, most severe first.
 
@@ -238,6 +263,7 @@ Skills I use daily for code work.
 - **[codebase-design](./skills/engineering/codebase-design/SKILL.md)**: Shared discipline and vocabulary for designing deep modules: a lot of behaviour behind a small interface, placed at a clean seam, testable through that interface.
 - **[code-review](./skills/engineering/code-review/SKILL.md)**: Two-axis review of the diff since a fixed point: **Standards** (does it follow the repo's coding standards, plus a Fowler smell baseline?) and **Spec** (does it faithfully implement the originating issue/spec?), run as parallel sub-agents so neither pollutes the other.
 - **[pr](./skills/engineering/pr/SKILL.md)**: The shape a pull request body should take: a summary as the smallest visual that makes the change clear, before/after evidence that it works, and a merge-danger call (one-way or two-way door, plus blast radius).
+- **[version-control](./skills/engineering/version-control/SKILL.md)** *(added in this fork)*: Git workflow and hygiene: atomic commits, branching, rebase vs merge, safe pushing, PRs, conflicts, and least-destructive recovery.
 - **[wizard](./skills/engineering/wizard/SKILL.md)**: Generate an interactive bash wizard that walks a human through steps only they can perform: provisioning infrastructure, setting up credentials or CI secrets, walking an unfamiliar third-party dashboard, or running a one-off migration or cutover.
 
 ### Productivity
