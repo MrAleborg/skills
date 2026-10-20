@@ -40,6 +40,10 @@ A run has five steps, in order:
 
 One run covers one ticket. The tickets [to-tickets](https://aihero.dev/skills-to-tickets) produces are tracer-bullet vertical slices sized to fit a single fresh [context window](https://www.aihero.dev/ai-coding-dictionary/context-window), so the intended rhythm is: clear context, implement one ticket, commit, clear again. Each ticket is self-contained, so you can discard the previous ticket's context.
 
+## On Claude Code: implementer and reviewer subagents
+
+When the Agent tool is available and the `ponytail` and `ponytail-review` skills are installed, `implement` hands the build to an implementer [subagent](https://www.aihero.dev/ai-coding-dictionary/subagent) that calls `ponytail`, and the main agent keeps only that subagent's report (what it built, the commits, what it skipped). It then spawns a fresh reviewer subagent that calls `ponytail-review` on those commits and relays the findings to you without fixing them. This path replaces the `tdd` and `code-review` steps. Without those skills, or off Claude Code, the run is the one described above.
+
 ## Pre-agreed seams
 
 The skill's central idea is the **seam**, the public boundary you observe behaviour at without reaching inside. Tests live at seams. When the seam is agreed before any code exists, the tests last, and you can rewrite the implementation underneath without changing them.
