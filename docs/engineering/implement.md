@@ -42,7 +42,7 @@ One run covers one ticket. The tickets [to-tickets](https://aihero.dev/skills-to
 
 ## On Claude Code: implementer and reviewer subagents
 
-When the Agent tool is available and the `ponytail` and `ponytail-review` skills are installed, `implement` hands the build to an implementer [subagent](https://www.aihero.dev/ai-coding-dictionary/subagent) that calls `ponytail`, and the main agent keeps only that subagent's report (what it built, the commits, what it skipped). It then spawns a fresh reviewer subagent that calls `ponytail-review` on those commits and relays the findings to you without fixing them. This path replaces the `tdd` and `code-review` steps. Without those skills, or off Claude Code, the run is the one described above.
+When the Agent tool is available and the `ponytail` and `ponytail-review` skills are installed, `implement` hands the build to an implementer [subagent](https://www.aihero.dev/ai-coding-dictionary/subagent) (Sonnet 5.5, high effort) that calls `ponytail`, and the main agent keeps only that subagent's report (what it built, the commits, what it skipped). It then spawns a fresh reviewer subagent (Opus 5.5, high effort) that calls `ponytail-review` on those commits and relays the findings to you without fixing them. This path replaces the `tdd` and `code-review` steps. Without those skills, or off Claude Code, the run is the one described above.
 
 ## Pre-agreed seams
 

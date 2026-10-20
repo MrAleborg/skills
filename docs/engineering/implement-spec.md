@@ -23,7 +23,7 @@ You invoke this by typing `/implement-spec`, and the agent won't reach for it on
 
 ## On Claude Code: ponytail
 
-If the `ponytail` and `ponytail-review` skills are installed, each implementer subagent calls `ponytail` instead of `tdd`, and the close-out review is a reviewer subagent calling `ponytail-review` on the integration branch instead of `code-review`. The single fix subagent after the review is unchanged.
+If the `ponytail` and `ponytail-review` skills are installed, each implementer subagent (Sonnet 5.5, high effort) calls `ponytail` instead of `tdd`, and the close-out review is a reviewer subagent (Opus 5.5, high effort) calling `ponytail-review` on the integration branch instead of `code-review`. The single fix subagent after the review is unchanged.
 
 ## The integration branch
 
