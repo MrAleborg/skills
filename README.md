@@ -10,6 +10,13 @@
 
 # Skills For Real Engineers
 
+> **This is a fork of [mattpocock/skills](https://github.com/mattpocock/skills).** The skills, docs, and ideas are Matt Pocock's. This fork adds:
+>
+> - **`implement` and `implement-spec`**: on Claude Code, an implementer subagent (Sonnet 5.5, high effort, using `ponytail`) builds the work and a reviewer subagent (Opus 5.5, high effort, using `ponytail-review`) reviews it. Without those skills, the original flow runs.
+> - **`version-control`**: a new skill for git hygiene (atomic commits, branching, safe pushing, recovery).
+>
+> The install commands below and the newsletter links point at the upstream project, not this fork.
+
 [![skills.sh](https://skills.sh/b/mattpocock/skills)](https://skills.sh/mattpocock/skills)
 
 My agent skills that I use every day to do real engineering - not vibe coding.
