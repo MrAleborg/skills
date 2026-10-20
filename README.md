@@ -8,26 +8,37 @@
   </a>
 </p>
 
-# Skills For Real Engineers
+# Skills For Real Engineers (fork)
 
-> **This is a fork of [mattpocock/skills](https://github.com/mattpocock/skills).** The skills, docs, and ideas are Matt Pocock's. This fork adds:
->
-> - **`implement` and `implement-spec`**: on Claude Code, an implementer subagent (Sonnet 5.5, high effort, using `ponytail`) builds the work and a reviewer subagent (Opus 5.5, high effort, using `ponytail-review`) reviews it. Without those skills, the original flow runs.
-> - **`version-control`**: a new skill for git hygiene (atomic commits, branching, safe pushing, recovery).
->
-> The install commands below and the newsletter links point at the upstream project, not this fork.
+This is a fork of [mattpocock/skills](https://github.com/mattpocock/skills). The skills, docs, and ideas are Matt Pocock's. This fork changes the parts below and nothing else.
 
-[![skills.sh](https://skills.sh/b/mattpocock/skills)](https://skills.sh/mattpocock/skills)
+## What this fork changes
 
-My agent skills that I use every day to do real engineering - not vibe coding.
+### Implementer and reviewer subagents on Claude Code
 
-Developing real applications is hard. Approaches like GSD, BMAD, and Spec-Kit try to help by owning the process. But while doing so, they take away your control and make bugs in the process hard to resolve.
+[`implement`](./skills/engineering/implement/SKILL.md) and [`implement-spec`](./skills/engineering/implement-spec/SKILL.md) split building from reviewing when the Agent tool and the `ponytail` and `ponytail-review` skills are available:
 
-These skills are designed to be small, easy to adapt, and composable. They work with any model. They're based on decades of engineering experience. Hack around with them. Make them your own. Enjoy.
+| Role | Model | Effort | Skill |
+| --- | --- | --- | --- |
+| Implementer subagent | Sonnet 5.5 | high | `ponytail` |
+| Reviewer subagent | Opus 5.5 | high | `ponytail-review` |
 
-If you want to keep up with changes to these skills, and any new ones I create, you can join ~60,000 other devs on my newsletter:
+The main agent keeps the implementer's report (what it built, the commits, what it skipped) and relays the reviewer's findings without fixing them. In `implement-spec` the single fix subagent after the review is unchanged. Without those skills, or off Claude Code, the original `tdd` and `code-review` flow runs.
 
-[Sign Up To The Newsletter](https://www.aihero.dev/s/skills-newsletter)
+### New skill: version-control
+
+[`version-control`](./skills/engineering/version-control/SKILL.md) covers git hygiene: atomic commits, branching, rebase vs merge, safe pushing, PRs, conflicts, and least-destructive recovery. It is model-invoked, so the agent reaches for it whenever the task touches git.
+
+## Upstream documentation
+
+Everything else works as Matt Pocock documents it:
+
+- [Upstream README](https://github.com/mattpocock/skills#readme): the philosophy, install options, and the full skill list.
+- [Skill docs on aihero.dev](https://aihero.dev/skills-ask-matt): one page per skill at `https://aihero.dev/skills-<skill-name>`. Start with `ask-matt`, the router over the whole set.
+- [Newsletter](https://www.aihero.dev/s/skills-newsletter): to keep up with upstream changes and new skills.
+- [AI Coding Dictionary](https://www.aihero.dev/ai-coding-dictionary): the vocabulary the docs use.
+
+The installation steps and skill list below are upstream's, unchanged, and install the upstream plugin.
 
 ## Installation (30-second setup)
 
